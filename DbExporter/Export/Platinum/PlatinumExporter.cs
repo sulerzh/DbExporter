@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DbExporter.Common;
+using DbExporter.Helper;
+using DbExporter.Provider.Platinum;
+
+namespace DbExporter.Export.Platinum
+{
+    public class PlatinumExporter : IExporter
+    {
+        public void Export(List<ShowBase> selectedItems)
+        {
+            foreach (ShowBase item in selectedItems)
+            {
+                PlatinumState state = new PlatinumState((ScanResult)item);
+                string filePath = string.Format(@"{0}\{1}.xml",
+                    GlobalConfigVars.XmlPath,
+                    state.Scan.ScanIdNr);
+                OjbectDataXmlSerializer.Save(state, filePath);
+            }
+        }
+    }
+}
