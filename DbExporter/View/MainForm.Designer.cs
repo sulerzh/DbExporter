@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.cklbSampleId = new System.Windows.Forms.CheckedListBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.ckAll = new System.Windows.Forms.CheckBox();
@@ -44,16 +43,6 @@
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // dateTimePicker
-            // 
-            this.dateTimePicker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dateTimePicker.Location = new System.Drawing.Point(3, 29);
-            this.dateTimePicker.Margin = new System.Windows.Forms.Padding(6);
-            this.dateTimePicker.Name = "dateTimePicker";
-            this.dateTimePicker.Size = new System.Drawing.Size(521, 33);
-            this.dateTimePicker.TabIndex = 0;
-            this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
             // cklbSampleId
             // 
@@ -138,7 +127,6 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.datePicker1);
-            this.groupBox2.Controls.Add(this.dateTimePicker);
             this.groupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.groupBox2.Location = new System.Drawing.Point(12, 13);
             this.groupBox2.Name = "groupBox2";
@@ -150,7 +138,7 @@
             // datePicker1
             // 
             this.datePicker1.InvalidForeColor = System.Drawing.SystemColors.ControlText;
-            this.datePicker1.Location = new System.Drawing.Point(3, 0);
+            this.datePicker1.Location = new System.Drawing.Point(6, 26);
             this.datePicker1.Name = "datePicker1";
             this.datePicker1.PickerColorTable.DayText = System.Drawing.Color.LightGreen;
             this.datePicker1.PickerDayFont = new System.Drawing.Font("SimSun", 14F);
@@ -158,7 +146,7 @@
             this.datePicker1.PickerFooterFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.datePicker1.PickerHeaderFont = new System.Drawing.Font("Segoe UI", 12F);
             this.datePicker1.ShowPickerWeekHeader = false;
-            this.datePicker1.Size = new System.Drawing.Size(524, 35);
+            this.datePicker1.Size = new System.Drawing.Size(515, 35);
             this.datePicker1.TabIndex = 1;
             this.datePicker1.ValueChanged += new System.EventHandler<CustomControls.CheckDateEventArgs>(this.datePicker1_ValueChanged);
             // 
@@ -214,8 +202,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.DateTimePicker dateTimePicker;
         private System.Windows.Forms.CheckedListBox cklbSampleId;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.CheckBox ckAll;

@@ -124,6 +124,11 @@ namespace DbExporter
             Properties.Settings.Default.Save();
         }
 
+        public static string DbType
+        {
+            get { return Properties.Settings.Default.DbType; }
+        }
+
         public static string DbPath
         {
             get

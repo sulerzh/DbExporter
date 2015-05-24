@@ -13,17 +13,44 @@ namespace DbExporter.View
         public MainForm()
         {
             InitializeComponent();
-
+            this.datePicker1.MaxDate = DateTime.Now;
             ResetDbProvider();
+        }
+
+        private void SetBoldDates()
+        {
+            this.datePicker1.PickerBoldedDates = this.DbProvider.GetAllTestDate();
+        }
+
+        private void SetUiText()
+        {
+            this.Text = string.Format("数据导出软件({0})", GlobalConfigVars.DbType);
+            this.groupBox1.Text = ShowBase.GetDescription();
         }
 
         public void ResetDbProvider()
         {
+            SetUiText();
             this.DbProvider = GlobalConfigVars.GetDbProvider();
             this.DbExporter = GlobalConfigVars.GetExporter();
             this.lbSelectedSampleId.Items.Clear();
             SetBoldDates();
-            RefreshSampleIdList(dateTimePicker.Value);
+            RefreshSampleIdList(datePicker1.Value);
+        }
+
+        private void btnSetting_Click(object sender, EventArgs e)
+        {
+            SettingForm settingForm = new SettingForm();
+            if (DialogResult.OK == settingForm.ShowDialog())
+            {
+                ResetDbProvider();
+            }
+        }
+
+        private void datePicker1_ValueChanged(object sender, CustomControls.CheckDateEventArgs e)
+        {
+            lbSelectedSampleId.Items.Clear();
+            RefreshSampleIdList(datePicker1.Value);
         }
 
         private void RefreshSampleIdList(DateTime filterDate)
@@ -41,12 +68,6 @@ namespace DbExporter.View
             }
             lbSelectedSampleId.DisplayMember = "Label";
             btnExport.Enabled = lbSelectedSampleId.Items.Count > 0;
-        }
-
-        private void dateTimePicker_ValueChanged(object sender, EventArgs e)
-        {
-            lbSelectedSampleId.Items.Clear();
-            RefreshSampleIdList(dateTimePicker.Value);
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -97,24 +118,5 @@ namespace DbExporter.View
             RefreshSelectedSampleIdList();
         }
 
-        private void btnSetting_Click(object sender, EventArgs e)
-        {
-            SettingForm settingForm = new SettingForm();
-            if (DialogResult.OK == settingForm.ShowDialog())
-            {
-                ResetDbProvider();
-            }
-        }
-
-        private void datePicker1_ValueChanged(object sender, CustomControls.CheckDateEventArgs e)
-        {
-            lbSelectedSampleId.Items.Clear();
-            RefreshSampleIdList(datePicker1.Value);
-        }
-
-        public void SetBoldDates()
-        {
-            this.datePicker1.PickerBoldedDates = this.DbProvider.GetAllTestDate();
-        }
     }
 }
