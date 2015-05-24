@@ -11,7 +11,8 @@ namespace DbExporter.Provider.Aggram
     {
         public List<DateTime> GetAllTestDate()
         {
-            throw new NotImplementedException();
+            RecordQuery query = new RecordQuery(GlobalConfigVars.DbPath);
+            return query.GetAllDates().Select(r => r.StartTime.Date).Distinct().ToList();
         }
 
         public List<ShowBase> GetResultByFilterDate(DateTime testDate)

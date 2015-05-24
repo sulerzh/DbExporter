@@ -12,8 +12,7 @@ namespace DbExporter.Provider.Spife4000
     {
         private bool IsMatched(string tdfFile, DateTime filterDate, string filterSampleId, out TdfInfo tdfInfo)
         {
-
-            if (TdfParser.Parse(tdfFile, filterDate, filterSampleId, out tdfInfo))
+            if (TdfParser.Parse(tdfFile, out tdfInfo))
             {
                 return tdfInfo != null &&
                        filterDate.Date == tdfInfo.ScannedTime.Date &&
@@ -57,7 +56,20 @@ namespace DbExporter.Provider.Spife4000
 
         public List<DateTime> GetAllTestDate()
         {
-            throw new NotImplementedException();
+            List<TdfInfo> result = new List<TdfInfo>();
+
+            var rootFolder = new DirectoryInfo(GlobalConfigVars.DbPath);
+            foreach (FileInfo bdfFileInfo in rootFolder.GetFiles("*.BDF", SearchOption.AllDirectories))
+            {
+                string tdfFilePath = Path.ChangeExtension(bdfFileInfo.FullName, ".TDF");
+                TdfInfo tdfInfo;
+                if (TdfParser.Parse(tdfFilePath, out tdfInfo))
+                {
+                    result.Add(tdfInfo);
+                }
+            }
+
+            return result.Select(r => r.ScannedTime.Date).Distinct().ToList();
         }
     }
 }

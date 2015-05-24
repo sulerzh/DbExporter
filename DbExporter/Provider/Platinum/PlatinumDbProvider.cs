@@ -11,7 +11,7 @@ namespace DbExporter.Provider.Platinum
     {
         public List<DateTime> GetAllTestDate()
         {
-            throw new NotImplementedException();
+            return PlatinumDbAccess.GetAllDates().Select(d => d.Date).ToList();
         }
 
         public List<ShowBase> GetResultByFilterDate(DateTime testDate)

@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -142,6 +143,12 @@
   <ItemGroup>
     <Folder Include="Export\QS2000\" />
     <Folder Include="Provider\QS2000\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonthCalendarControl\MonthCalendarControl.csproj">
+      <Project>{19BBA547-3515-4E3E-ADB7-E9895171A43E}</Project>
+      <Name>MonthCalendarControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

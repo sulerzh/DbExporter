@@ -27,7 +27,7 @@ namespace DbExporter.Provider.Spife4000
             @"Label=Patient Name\s*Value=(\d+)?\s*";
         private static Regex TdfRegex = new Regex(TdfParseRegex, RegexOptions.Compiled);
 
-        public static bool Parse(string file, DateTime filterTime, string filterSampleId, out TdfInfo tdfInfo)
+        public static bool Parse(string file, out TdfInfo tdfInfo)
         {
             //scannedTime = DateTime.MaxValue;
             //sampleId = string.Empty;

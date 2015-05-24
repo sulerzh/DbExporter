@@ -477,6 +477,25 @@ namespace DbExporter.Provider.Aggram
 
         #endregion
 
+        internal List<SimpleResult> GetAllDates()
+        {
+            var condition =
+                new ParadoxCondition.Compare(
+                    ParadoxCompareOperator.Greater, 0, 0, 0);
+            var rdr = _Connection.ExecuteQuery("HRRuns", condition, false);
+            List<SimpleResult> result = new List<SimpleResult>();
+            while (rdr.Read())
+            {
+                SimpleResult r = new SimpleResult();
+                r.CrvSeqNum = rdr.GetInt32(rdr.GetOrdinal("CrvSeqNum"));
+                r.PrimId = rdr.GetString(rdr.GetOrdinal("PrimId"));
+                r.StartTime = rdr.GetDateTime(rdr.GetOrdinal("StartTime"));
+                result.Add(r);
+            }
+            return result;
+            // return GetSimpleRowInfos(q, false);
+        }
+
         internal List<SimpleResult> GetSampleByFilterDate(DateTime filterDate)
         {
             var condition =

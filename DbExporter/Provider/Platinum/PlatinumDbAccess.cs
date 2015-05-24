@@ -146,6 +146,36 @@ namespace DbExporter.Provider.Platinum
             {}
         }
 
+        public static IEnumerable<DateTime> GetAllDates()
+        {
+            using (OleDbConnection conn = CreateConnection(GlobalConfigVars.DbPath))
+            {
+                using (var cmd = new OleDbCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "select CreateDate from Scan";
+
+                    // test to fetch all record
+                    //cmd.CommandText = "select * from Scan";
+
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    var reader = cmd.ExecuteReader();
+
+                    using (reader)
+                    {
+                        while (reader.Read())
+                        {
+                            yield return reader.GetDateTime(0);
+                        }
+                    }
+                }
+            }
+        }
+
         public static IEnumerable<ScanResult> GetReportInfos(DateTime filterDate)
         {
             using (OleDbConnection conn = CreateConnection(GlobalConfigVars.DbPath))

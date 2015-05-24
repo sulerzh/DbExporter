@@ -21,6 +21,8 @@ namespace DbExporter.View
         {
             this.DbProvider = GlobalConfigVars.GetDbProvider();
             this.DbExporter = GlobalConfigVars.GetExporter();
+            this.lbSelectedSampleId.Items.Clear();
+            SetBoldDates();
             RefreshSampleIdList(dateTimePicker.Value);
         }
 
@@ -102,6 +104,17 @@ namespace DbExporter.View
             {
                 ResetDbProvider();
             }
+        }
+
+        private void datePicker1_ValueChanged(object sender, CustomControls.CheckDateEventArgs e)
+        {
+            lbSelectedSampleId.Items.Clear();
+            RefreshSampleIdList(datePicker1.Value);
+        }
+
+        public void SetBoldDates()
+        {
+            this.datePicker1.PickerBoldedDates = this.DbProvider.GetAllTestDate();
         }
     }
 }
