@@ -544,7 +544,7 @@ namespace DbExporter.Provider.Aggram
                 result.Diagnosis = sr[5] == DBNull.Value ? "" : (string)sr[5];
                 return result;
             }
-            return null;
+            return new PatientInfo { PrimID = primId };
         }
 
         public HrTestParams GetTestParams(int procTag)
@@ -591,7 +591,7 @@ namespace DbExporter.Provider.Aggram
                     (int)sr["DataPoints"], (byte[])sr["Data"]);
                 Curve c = new Curve();
                 c.Label = crv.Label;
-                c.InitialMin = (int) sr["InitialMin"];
+                c.InitialMin = (int)sr["InitialMin"];
                 c.InitialMax = (int)sr["InitialMax"];
                 c.ZeroODPoint = crv.ZeroODPoint;
                 c.MaxPCPoint = crv.MaxPCPoint;
