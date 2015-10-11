@@ -9,6 +9,20 @@ namespace DbExporter.Provider.QS2000
     public class BitmapImageHelper
     {
         /// <summary>
+        /// 读取位图资源数据
+        /// </summary>
+        /// <param name="map">位图数据</param>
+        /// <returns>二进制数组</returns>
+        public static byte[] GetBytes(Bitmap map)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                map.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                return ms.ToArray();
+            }
+        }
+
+        /// <summary>
         /// 保存文件
         /// </summary>
         /// <param name="width">图片宽度</param>
@@ -29,6 +43,31 @@ namespace DbExporter.Provider.QS2000
             using (var fs = File.OpenWrite(file))
             {
                 encoder.Save(fs);
+            }
+        }
+
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="width">图片宽度</param>
+        /// <param name="height">图片告诉</param>
+        /// <param name="data">像素数据</param>
+        /// /// <returns>二进制数组</returns>
+        public static byte[] GetBytes(int width, int height, byte[] data)
+        {
+            int bitsPerPixel = 24;
+            int stride = (width * bitsPerPixel + 7) / 8;
+
+            // Single step creation of the image
+            var bmps = BitmapSource.Create(width, height, 96, 96,
+                                PixelFormats.Bgr24, null, data, stride);
+            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bmps));
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                encoder.Save(ms);
+                return ms.ToArray();
             }
         }
 

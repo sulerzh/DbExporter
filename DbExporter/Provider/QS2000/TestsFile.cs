@@ -3,12 +3,20 @@ using System.Collections.Generic;
 
 namespace DbExporter.Provider.QS2000
 {
-    public class TestIdentity
+    public class TestIdentity : IEquatable<TestIdentity>
     {
         public string Name;// SPE-18 OR IFE(21)
         public string Instrument; // 600512515(11)
         public short GelSize; // 18 or 1
         public short StainType; // 0 or 1(酸蓝，酸紫)
+
+        public bool Equals(TestIdentity other)
+        {
+            return this.Name == other.Name &&
+                this.Instrument == other.Instrument &&
+                this.GelSize == other.GelSize &&
+                this.StainType == other.StainType;
+        }
     }
 
     public class DemoIdentity

@@ -51,7 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExporterFactory.cs" />
+    <Compile Include="Provider\QS2000\Curve.cs" />
     <Compile Include="Export\QS2000\Qs2000Exporter.cs" />
+    <Compile Include="Provider\QS2000\Qs2000State.cs" />
+    <Compile Include="Helper\Base64Converter.cs" />
     <Compile Include="Provider\QS2000\BitmapImageHelper.cs" />
     <Compile Include="Provider\QS2000\DFile.cs" />
     <Compile Include="Provider\QS2000\IndexFile.cs" />

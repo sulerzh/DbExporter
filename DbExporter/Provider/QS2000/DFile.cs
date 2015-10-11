@@ -19,6 +19,8 @@ namespace DbExporter.Provider.QS2000
         public string       Comments;//SZCOMMENTS
         public string       Characteristic;//ASZPATTERNCHAR
         public short        ImageContrast;
+
+        public byte[] DestBytes;
     }
 
     public class ScanIdentifier

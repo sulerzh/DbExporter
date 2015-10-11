@@ -1,4 +1,5 @@
 ﻿using DbExporter.Common;
+using DbExporter.Helper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -258,12 +259,12 @@ namespace DbExporter.Provider.Platinum
             get
             {
                 if (this.Scan != null && this.Scan.DIB != null)
-                    return ImageToBase64(this.Scan.DIB);
+                    return Base64Converter.ImageToBase64(this.Scan.DIB);
                 return "";
             }
             set
             {
-                this.Scan.DIB = Base64ToImage(value);
+                this.Scan.DIB = Base64Converter.Base64ToImage(value);
             }
         }
 
@@ -281,22 +282,5 @@ namespace DbExporter.Provider.Platinum
             }
         }
 
-        private static byte[] Base64ToImage(string base64)
-        {
-            if (string.IsNullOrEmpty(base64))
-            {
-                return null;
-            }
-            return Convert.FromBase64String(base64);
-        }
-
-        private static string ImageToBase64(byte[] bitmap)
-        {
-            if (bitmap == null)
-            {
-                return string.Empty;
-            }
-            return Convert.ToBase64String(bitmap);
-        }
     }
 }

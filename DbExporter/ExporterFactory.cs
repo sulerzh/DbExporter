@@ -1,6 +1,7 @@
 ﻿using DbExporter.Common;
 using DbExporter.Export.Aggram;
 using DbExporter.Export.Platinum;
+using DbExporter.Export.QS2000;
 using DbExporter.Export.Spife4000;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace DbExporter
                 case SupportedDbType.Spife4000:
                     return new Spife4000Exporter();
                 case SupportedDbType.QS2000:
-                    return null;
+                    return new Qs2000Exporter();
             }
             return null;
         }

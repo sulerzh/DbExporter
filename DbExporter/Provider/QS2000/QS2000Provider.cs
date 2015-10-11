@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Linq;
+using DbExporter.Export.QS2000;
 
 namespace DbExporter.Provider.QS2000
 {
@@ -25,6 +26,7 @@ namespace DbExporter.Provider.QS2000
                 "D{0}.fsd",
                 seqNum.ToString().PadLeft(7, '0'));
         }
+
 
         public byte[] ConvertToByteArray(string input)
         {
@@ -301,8 +303,10 @@ namespace DbExporter.Provider.QS2000
                                 parts.Add(part);
                             }
                             var bitMap = BitmapImageHelper.FixImageMerge(parts, bandNames);
-                            var outFileName = "E:\\export\\" + ginc + "_" + inc++ + ".bmp";
-                            bitMap.Save(outFileName);
+                            //var outFileName = "E:\\export\\" + ginc + "_" + inc++ + ".bmp";
+                            //bitMap.Save(outFileName);
+
+                            scan.DestBytes = BitmapImageHelper.GetBytes(bitMap);
 
                             result.Scans.Add(scan);
                         }
@@ -379,8 +383,9 @@ namespace DbExporter.Provider.QS2000
 
                             scan.Image = br.ReadBytes(16500); // 220*25*3
 
-                            var outFileName = "E:\\export\\" + ginc + "_" + inc++ + ".bmp";
-                            BitmapImageHelper.SaveBitmap(220, 25, scan.Image, outFileName);
+                            //var outFileName = "E:\\export\\" + ginc + "_" + inc++ + ".bmp";
+                            //BitmapImageHelper.SaveBitmap(220, 25, scan.Image, outFileName);
+                            scan.DestBytes = BitmapImageHelper.GetBytes(220, 25, scan.Image);
 
                             result.Scans.Add(scan);
                         }
@@ -437,6 +442,34 @@ namespace DbExporter.Provider.QS2000
         public List<ShowBase> GetResultByFilterDate(DateTime testDate)
         {
             return GetTFileData().Where(d => d.ScanDate.Date == testDate.Date).ToList<ShowBase>();
+        }
+
+        public Qs2000State GetState(TFileData query)
+        {
+            string testsFile = GlobalConfigVars.DbPath + "\\" + "Tests.qsd";
+            TestsFile test = ParseTestsFile(testsFile);
+
+            string tfile = GlobalConfigVars.DbPath + "\\" + GetTFile(query.SeqNum);
+            TFile tFile = ParseTFile(tfile);
+            string dfile = GlobalConfigVars.DbPath + "\\" + GetDFile(query.SeqNum);
+            DFile dFile = ParseDFile(dfile, tFile.Header.Identity.Name, tFile.Header.Identity.GelSize);
+            // 查找配置
+            TestProperties tp = test.Tests.Where(t => t.Identity.Equals(tFile.Header.Identity)).First();
+            Qs2000State state = new Qs2000State
+            {
+                SeqNum = query.SeqNum.ToString(),
+                SampleNum = query.Id.ToString(),
+                SampleId = tFile.Datas[query.Id].Patient.Demographic[0],
+                ScannedDate = tFile.Datas[query.Id].ScanDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                Scan = dFile.Scans[query.Id].DestBytes,
+                TestType = tFile.Header.Identity.Name
+            };
+            if (!tp.bIFE)
+            {
+                StdScan scan = dFile.Scans[query.Id] as StdScan;
+                state.Result = new Qs2000Result(scan.Data, scan.Fraction, tp.Fraction);
+            }
+            return state;
         }
     }
 }
