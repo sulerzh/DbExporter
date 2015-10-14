@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbExporter", "DbExporter\DbExporter.csproj", "{C51297E1-E19B-4F5A-AFA8-00204BAB9A7C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonthCalendarControl", "MonthCalendarControl\MonthCalendarControl.csproj", "{19BBA547-3515-4E3E-ADB7-E9895171A43E}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DbExporterSetup", "..\Setups\DbExporterSetup\DbExporterSetup.vdproj", "{D5E7EA31-2606-415F-BB4A-B561FA2A9CCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,8 @@ Global
 		{19BBA547-3515-4E3E-ADB7-E9895171A43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19BBA547-3515-4E3E-ADB7-E9895171A43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19BBA547-3515-4E3E-ADB7-E9895171A43E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5E7EA31-2606-415F-BB4A-B561FA2A9CCF}.Debug|Any CPU.ActiveCfg = Debug
+		{D5E7EA31-2606-415F-BB4A-B561FA2A9CCF}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

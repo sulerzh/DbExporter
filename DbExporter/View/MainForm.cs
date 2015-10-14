@@ -24,7 +24,7 @@ namespace DbExporter.View
 
         private void SetUiText()
         {
-            this.Text = string.Format("数据导出软件({0})", GlobalConfigVars.DbType);
+            this.Text = string.Format("数据导出软件v1.0({0})", GlobalConfigVars.DbType);
             this.groupBox1.Text = ShowBase.GetDescription();
         }
 
