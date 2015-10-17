@@ -1,12 +1,9 @@
-﻿using System;
+﻿using DbExporter.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbExporter.Provider.Platinum
 {
@@ -176,7 +173,7 @@ namespace DbExporter.Provider.Platinum
             }
         }
 
-        public static IEnumerable<ScanResult> GetReportInfos(DateTime filterDate)
+        public static IEnumerable<ShowBase> GetReportInfos(DateTime filterDate)
         {
             using (OleDbConnection conn = CreateConnection(GlobalConfigVars.DbPath))
             {
@@ -229,7 +226,7 @@ namespace DbExporter.Provider.Platinum
 
                             // Patient
                             result.Patient = GetDemographicById(result.DemographicIdNr);
-                            yield return result;
+                            yield return (ShowBase)result;
                         }
                     }
                 }

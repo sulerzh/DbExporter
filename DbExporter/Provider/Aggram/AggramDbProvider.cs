@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DbExporter.Common;
 
 namespace DbExporter.Provider.Aggram
@@ -18,7 +16,7 @@ namespace DbExporter.Provider.Aggram
         public List<ShowBase> GetResultByFilterDate(DateTime testDate)
         {
             RecordQuery query = new RecordQuery(GlobalConfigVars.DbPath);
-            return query.GetSampleByFilterDate(testDate).ToList<ShowBase>();
+            return query.GetSampleByFilterDate(testDate);
         }
     }
 }

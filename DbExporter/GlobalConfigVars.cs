@@ -12,12 +12,14 @@ namespace DbExporter
     {
         public static SupportedDbType GetDbType(string dbType)
         {
-            SupportedDbType dbModel = SupportedDbType.None;
-            if (Enum.TryParse(dbType, out dbModel))
+            SupportedDbType dbModel = SupportedDbType.Spife4000;
+            try
             {
-                return dbModel;
+                dbModel = (SupportedDbType)Enum.Parse(typeof(SupportedDbType), dbType);
             }
-            return SupportedDbType.Spife4000;
+            catch
+            { }
+            return dbModel;
         }
 
         private static bool ValidateDbType(SupportedDbType dbType)

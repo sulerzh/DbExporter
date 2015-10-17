@@ -3,11 +3,6 @@ using DbExporter.Provider.Aggram;
 using DbExporter.Provider.Platinum;
 using DbExporter.Provider.QS2000;
 using DbExporter.Provider.Spife4000;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbExporter
 {

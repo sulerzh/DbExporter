@@ -41,14 +41,14 @@ namespace DbExporter.Provider.QS2000
         public string Label; // (13)
         public List<byte> Ratio; // (2)
         public bool bIstd;
-        public List<Tuple<double, double>> dPctRange; // (9,2)
-        public List<Tuple<double, double>> dUnitsRange; // (9, 2)
+        public List<KeyValuePair<double, double>> dPctRange; // (9,2)
+        public List<KeyValuePair<double, double>> dUnitsRange; // (9, 2)
     }
 
     public class Ratio
     {
         public string Label; // (12)
-        public List<Tuple<double, double>> dRange; // (9, 2)
+        public List<KeyValuePair<double, double>> dRange; // (9, 2)
     }
 
     public class TestProperties

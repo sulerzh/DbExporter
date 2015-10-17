@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbExporter.Provider.Platinum
 {
@@ -16,7 +14,7 @@ namespace DbExporter.Provider.Platinum
 
         public List<ShowBase> GetResultByFilterDate(DateTime testDate)
         {
-            return PlatinumDbAccess.GetReportInfos(testDate).ToList<ShowBase>();
+            return PlatinumDbAccess.GetReportInfos(testDate).ToList();
         }
     }
 }

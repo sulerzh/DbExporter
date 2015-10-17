@@ -1,10 +1,7 @@
 ﻿using DbExporter.Common;
 using DbExporter.Helper;
 using DbExporter.Provider.QS2000;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DbExporter.Export.QS2000
 {

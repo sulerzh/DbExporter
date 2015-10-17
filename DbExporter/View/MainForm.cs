@@ -19,7 +19,14 @@ namespace DbExporter.View
 
         private void SetBoldDates()
         {
-            this.datePicker1.PickerBoldedDates = this.DbProvider.GetAllTestDate();
+            try
+            {
+                this.datePicker1.PickerBoldedDates = this.DbProvider.GetAllTestDate();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("读取数据失败！请检查配置是否正确。");
+            }
         }
 
         private void SetUiText()
@@ -55,8 +62,15 @@ namespace DbExporter.View
 
         private void RefreshSampleIdList(DateTime filterDate)
         {
-            this.cklbSampleId.DataSource = this.DbProvider.GetResultByFilterDate(filterDate);//.ToList();
-            this.cklbSampleId.DisplayMember = "Label";
+            try
+            {
+                this.cklbSampleId.DataSource = this.DbProvider.GetResultByFilterDate(filterDate);//.ToList();
+                this.cklbSampleId.DisplayMember = "Label";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("读取数据失败！请检查配置是否正确。");
+            }
         }
 
         private void RefreshSelectedSampleIdList()

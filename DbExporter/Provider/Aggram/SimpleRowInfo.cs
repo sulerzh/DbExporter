@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DbExporter.Provider.Aggram
+﻿namespace DbExporter.Provider.Aggram
 {
     /// <summary>
     /// 简单行信息，包含主键和字符串信息

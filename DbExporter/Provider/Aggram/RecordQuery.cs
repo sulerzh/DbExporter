@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DbExporter.Export.Aggram;
 using DbExporter.Provider.Aggram.ParadoxReader;
-using System.IO;
-using System.Collections;
 using System.Data;
+using DbExporter.Common;
 
 namespace DbExporter.Provider.Aggram
 {
@@ -496,7 +494,7 @@ namespace DbExporter.Provider.Aggram
             // return GetSimpleRowInfos(q, false);
         }
 
-        internal List<SimpleResult> GetSampleByFilterDate(DateTime filterDate)
+        internal List<ShowBase> GetSampleByFilterDate(DateTime filterDate)
         {
             var condition =
             new ParadoxCondition.LogicalAnd(
@@ -511,14 +509,14 @@ namespace DbExporter.Provider.Aggram
                 new ParadoxCondition.Compare(
                     ParadoxCompareOperator.Greater, 0, 0, 0));
             var rdr = _Connection.ExecuteQuery("HRRuns", condition, false);
-            List<SimpleResult> result = new List<SimpleResult>();
+            List<ShowBase> result = new List<ShowBase>();
             while (rdr.Read())
             {
                 SimpleResult r = new SimpleResult();
                 r.CrvSeqNum = rdr.GetInt32(rdr.GetOrdinal("CrvSeqNum"));
                 r.PrimId = rdr.GetString(rdr.GetOrdinal("PrimId"));
                 r.StartTime = rdr.GetDateTime(rdr.GetOrdinal("StartTime"));
-                result.Add(r);
+                result.Add((ShowBase)r);
             }
             return result;
             // return GetSimpleRowInfos(q, false);

@@ -5,7 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Linq;
-using DbExporter.Export.QS2000;
+using System.Windows.Forms;
 
 namespace DbExporter.Provider.QS2000
 {
@@ -117,10 +117,10 @@ namespace DbExporter.Provider.QS2000
                                 {
                                     Ratio r = new Ratio();
                                     r.Label = Encoding.ASCII.GetString(br1.ReadBytes(12));
-                                    r.dRange = new List<Tuple<double, double>>();
+                                    r.dRange = new List<KeyValuePair<double, double>>();
                                     for (int j = 0; j < 9; j++)
                                     {
-                                        Tuple<double, double> t = new Tuple<double, double>(br1.ReadDouble(), br1.ReadDouble());
+                                        KeyValuePair<double, double> t = new KeyValuePair<double, double>(br1.ReadDouble(), br1.ReadDouble());
                                         r.dRange.Add(t);
                                     }
                                     ratios.Add(r);
@@ -137,16 +137,16 @@ namespace DbExporter.Provider.QS2000
                                     f.Ratio.Add(br1.ReadByte());
                                     f.Ratio.Add(br1.ReadByte());
                                     f.bIstd = br1.ReadBoolean();
-                                    f.dPctRange = new List<Tuple<double, double>>();
+                                    f.dPctRange = new List<KeyValuePair<double, double>>();
                                     for (int j = 0; j < 9; j++)
                                     {
-                                        Tuple<double, double> t = new Tuple<double, double>(br1.ReadDouble(), br1.ReadDouble());
+                                        KeyValuePair<double, double> t = new KeyValuePair<double, double>(br1.ReadDouble(), br1.ReadDouble());
                                         f.dPctRange.Add(t);
                                     }
-                                    f.dUnitsRange = new List<Tuple<double, double>>();
+                                    f.dUnitsRange = new List<KeyValuePair<double, double>>();
                                     for (int j = 0; j < 9; j++)
                                     {
-                                        Tuple<double, double> t = new Tuple<double, double>(br1.ReadDouble(), br1.ReadDouble());
+                                        KeyValuePair<double, double> t = new KeyValuePair<double, double>(br1.ReadDouble(), br1.ReadDouble());
                                         f.dUnitsRange.Add(t);
                                     }
                                     fractions.Add(f);
@@ -417,6 +417,7 @@ namespace DbExporter.Provider.QS2000
 
         public IEnumerable<TFileData> GetTFileData()
         {
+
             string indexFile = GlobalConfigVars.DbPath + "\\" + "Index.fsd";
             IndexFile index = ParseIndexFile(indexFile);
             if (index != null && index.Indexes != null)
@@ -441,7 +442,7 @@ namespace DbExporter.Provider.QS2000
 
         public List<ShowBase> GetResultByFilterDate(DateTime testDate)
         {
-            return GetTFileData().Where(d => d.ScanDate.Date == testDate.Date).ToList<ShowBase>();
+            return GetTFileData().Where(d => d.ScanDate.Date == testDate.Date).Select(r => (ShowBase)r).ToList();
         }
 
         public Qs2000State GetState(TFileData query)

@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbExporter.Provider.Spife4000
 {
@@ -37,7 +35,7 @@ namespace DbExporter.Provider.Spife4000
 
         public List<ShowBase> GetResultByFilterDate(DateTime testDate)
         {
-            List<TdfInfo> result = new List<TdfInfo>();
+            List<ShowBase> result = new List<ShowBase>();
 
             var rootFolder = new DirectoryInfo(GlobalConfigVars.DbPath);
             foreach (FileInfo bdfFileInfo in rootFolder.GetFiles("*.BDF", SearchOption.AllDirectories))
@@ -51,7 +49,7 @@ namespace DbExporter.Provider.Spife4000
             }
             // 排序
             result.Sort();
-            return result.ToList<ShowBase>();
+            return result;
         }
 
         public List<DateTime> GetAllTestDate()

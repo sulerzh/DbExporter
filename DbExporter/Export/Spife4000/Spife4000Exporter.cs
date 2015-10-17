@@ -1,11 +1,7 @@
 ﻿using DbExporter.Common;
 using DbExporter.Helper;
 using DbExporter.Provider.Spife4000;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DbExporter.Export.Spife4000
 {
