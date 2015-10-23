@@ -67,7 +67,8 @@ namespace DbExporter.Provider.QS2000
                             {
                                 // 读取TestIdentity
                                 var identity = new TestIdentity();
-                                identity.Name = ConvertToString(br1.ReadBytes(21));
+                                // identity.Name = ConvertToString(br1.ReadBytes(21));
+                                identity.Name = ConvertToGBString(br1.ReadBytes(21));
                                 identity.Instrument = ConvertToString(br1.ReadBytes(11));
                                 identity.GelSize = br1.ReadInt16();
                                 identity.StainType = br1.ReadInt16();
@@ -201,7 +202,8 @@ namespace DbExporter.Provider.QS2000
                     result.Header = new TFileHeader();
                     // 读取Identity
                     var identity = new TestIdentity();
-                    identity.Name = ConvertToString(br.ReadBytes(21));
+                    // identity.Name = ConvertToString(br.ReadBytes(21));
+                    identity.Name = ConvertToGBString(br.ReadBytes(21)); 
                     identity.Instrument = ConvertToString(br.ReadBytes(11));
                     identity.GelSize = br.ReadInt16();
                     identity.StainType = br.ReadInt16();
@@ -238,7 +240,7 @@ namespace DbExporter.Provider.QS2000
                         data.csStatus = ConvertToString(br.ReadBytes(21));
                         data.csDate = ConvertToString(br.ReadBytes(20));
                         data.Id = br.ReadByte();
-                        data.Name = ConvertToString(br.ReadBytes(21));
+                        data.Name = ConvertToGBString(br.ReadBytes(21));
                         data.Unknown = ConvertToString(br.ReadBytes(3));
                         result.Datas.Add(data);
 
@@ -460,19 +462,19 @@ namespace DbExporter.Provider.QS2000
             // 查找配置
             TestProperties tp = test.Tests.Where(t => t.Identity.Equals(tFile.Header.Identity)).First();
 
-            int id = query.Id - 1;
+            int idx = query.Id - 1;
             Qs2000State state = new Qs2000State
             {
                 SeqNum = query.SeqNum.ToString(),
-                SampleNum = id.ToString(),
-                SampleId = tFile.Datas[id].Patient.Demographic[0],
-                ScannedDate = tFile.Datas[id].ScanDate.ToString("yyyy/MM/dd HH:mm:ss"),
-                Scan = dFile.Scans[id].DestBytes,
+                SampleNum = query.Id.ToString(),
+                SampleId = tFile.Datas[idx].Patient.Demographic[0],
+                ScannedDate = tFile.Datas[idx].ScanDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                Scan = dFile.Scans[idx].DestBytes,
                 TestType = tFile.Header.Identity.Name
             };
             if (!tp.bIFE)
             {
-                StdScan scan = dFile.Scans[id] as StdScan;
+                StdScan scan = dFile.Scans[idx] as StdScan;
                 state.Result = new Qs2000Result(scan.Data, scan.Fraction, tp.Fraction);
             }
             return state;
