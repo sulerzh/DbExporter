@@ -456,18 +456,20 @@ namespace DbExporter.Provider.QS2000
             DFile dFile = ParseDFile(dfile, tFile.Header.Identity.Name, tFile.Header.Identity.GelSize);
             // 查找配置
             TestProperties tp = test.Tests.Where(t => t.Identity.Equals(tFile.Header.Identity)).First();
+
+            int id = query.Id - 1;
             Qs2000State state = new Qs2000State
             {
                 SeqNum = query.SeqNum.ToString(),
-                SampleNum = query.Id.ToString(),
-                SampleId = tFile.Datas[query.Id].Patient.Demographic[0],
-                ScannedDate = tFile.Datas[query.Id].ScanDate.ToString("yyyy/MM/dd HH:mm:ss"),
-                Scan = dFile.Scans[query.Id].DestBytes,
+                SampleNum = id.ToString(),
+                SampleId = tFile.Datas[id].Patient.Demographic[0],
+                ScannedDate = tFile.Datas[id].ScanDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                Scan = dFile.Scans[id].DestBytes,
                 TestType = tFile.Header.Identity.Name
             };
             if (!tp.bIFE)
             {
-                StdScan scan = dFile.Scans[query.Id] as StdScan;
+                StdScan scan = dFile.Scans[id] as StdScan;
                 state.Result = new Qs2000Result(scan.Data, scan.Fraction, tp.Fraction);
             }
             return state;
