@@ -48,7 +48,7 @@ namespace DbExporter.Provider.Spife4000
                 }
             }
             // 排序
-            result.Sort();
+            // result.Sort();
             return result;
         }
 
