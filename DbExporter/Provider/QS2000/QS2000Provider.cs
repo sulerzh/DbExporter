@@ -211,11 +211,14 @@ namespace DbExporter.Provider.QS2000
                     br.ReadBytes(220);
 
                     // 读取count数组
-                    result.Header.Count = ConvertToByteArray(ConvertToString(br.ReadBytes(100)));
+                    byte nullValue = 0xFF;
+                    byte[] sampleSeqArray = br.ReadBytes(100);
+                    result.Header.Count = sampleSeqArray.TakeWhile(i => i != nullValue).ToArray();
+                    int sampleCount = result.Header.Count.Length;
 
                     // 读取数据
                     result.Datas = new List<TFileData>();
-                    for (int i = 0; i < identity.GelSize; i++)
+                    for (int i = 0; i < sampleCount; i++)
                     {
                         var data = new TFileData();
                         data.Patient = new PatientInfo();
