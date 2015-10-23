@@ -40,7 +40,7 @@ namespace DbExporter.Provider.QS2000
 
         protected override string GetLabel()
         {
-            return string.Format("{0} ({1} - {2})", this.PatientId, this.SeqNum, this.Id);
+            return string.Format("{0} ({1} - {2}，{3})", this.PatientId, this.SeqNum, this.Id, this.Name);
         }
     }
 
