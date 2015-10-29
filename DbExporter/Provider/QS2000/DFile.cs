@@ -45,14 +45,13 @@ namespace DbExporter.Provider.QS2000
         public List<short>                RawFraction; // (10)
 
         // union
-        public short                RstrctBandCount;
-        //short Reserved;
+        public short                RstrctBandCountOrReserved;
 
-        // union
-        //sbyte FracModulation; // (10)
+        // union+OverlayAdjust,共20字节
+        public sbyte FracModulation; // (10)
         public short[]              RstrctBand; // (11)
+        public List<short> OverlayAdjust;
 
-        public List<short> OverlayAdjust; // (16)
         public short Sensitivity; // 0
         public float Amplification; // 2.973837
         public float DspScaleFactor; // 1

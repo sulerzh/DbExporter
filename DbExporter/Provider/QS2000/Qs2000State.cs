@@ -48,7 +48,7 @@ namespace DbExporter.Provider.QS2000
             {
                 if (fraction[i] < fraction[i + 1])
                 {
-                    Peak p = new Peak { Index=i+1, Left= fraction[i], Right= fraction[i + 1], Name= nots[i].Label, MSpike=false };
+                    Peak p = new Peak { Index=i+1, Left= fraction[i], Right= fraction[i + 1], Name= nots[i+1].Label, MSpike=false };
                     this.Peaks.Add(p);
                 }
             }

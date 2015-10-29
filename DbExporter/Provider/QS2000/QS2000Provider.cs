@@ -353,7 +353,7 @@ namespace DbExporter.Provider.QS2000
                                 scan.RawData.Add(br.ReadUInt16());
                             }
                             // skip
-                            br.ReadBytes(1512 - (rdcount1 + 1) * 2);
+                            br.ReadBytes(1568 - (rdcount1 + 1) * 2);
                             // 解析fraction
                             scan.Fraction = new List<short>();
                             for (int r = 0; r < 10 + 1; r++)
@@ -371,14 +371,14 @@ namespace DbExporter.Provider.QS2000
                             br.ReadInt16();
 
                             // union 2
-                            br.ReadBytes(44);
+                            br.ReadBytes(20);
 
-                            //
-                            scan.OverlayAdjust = new List<short>();
-                            for (int o = 0; o < 16; o++)
-                            {
-                                scan.OverlayAdjust.Add(br.ReadInt16());
-                            }
+                            // todo：fix count
+                            //scan.OverlayAdjust = new List<short>();
+                            //for (int o = 0; o < 16; o++)
+                            //{
+                            //    scan.OverlayAdjust.Add(br.ReadInt16());
+                            //}
                             scan.Sensitivity = br.ReadInt16();
 
                             scan.Amplification = br.ReadSingle();
