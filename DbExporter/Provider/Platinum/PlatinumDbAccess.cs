@@ -116,15 +116,33 @@ namespace DbExporter.Provider.Platinum
                     {
                         while (reader.Read())
                         {
+                            //Peak p = new Peak
+                            //{
+                            //    Index = reader.GetInt16(reader.GetOrdinal("Index")),
+                            //    Left = reader.GetInt32(reader.GetOrdinal("Left")),
+                            //    Top = reader.GetInt32(reader.GetOrdinal("Top")),
+                            //    Right = reader.GetInt32(reader.GetOrdinal("Right")),
+                            //    Name = reader.GetString(reader.GetOrdinal("Name")),
+                            //    MSpike = 1==reader.GetByte(reader.GetOrdinal("MSpike"))
+                            //};
+
                             Peak p = new Peak
                             {
                                 Index = reader.GetInt16(reader.GetOrdinal("Index")),
                                 Left = reader.GetInt32(reader.GetOrdinal("Left")),
                                 Top = reader.GetInt32(reader.GetOrdinal("Top")),
                                 Right = reader.GetInt32(reader.GetOrdinal("Right")),
-                                Name = reader.GetString(reader.GetOrdinal("Name")),
-                                MSpike = 1==reader.GetByte(reader.GetOrdinal("MSpike"))
+                                MSpike = 1 == reader.GetByte(reader.GetOrdinal("MSpike"))
                             };
+
+                            // 名称可能为空
+                            try
+                            {
+                                p.Name = reader.GetString(reader.GetOrdinal("Name"));
+                            }
+                            catch(Exception ex)
+                            { }
+
                             result.Add(p);
                         }
                     }

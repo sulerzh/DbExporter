@@ -12,13 +12,10 @@ namespace DbExporter.Provider.QS2000
     [Serializable]
     public class Peak
     {
-        [XmlIgnore]
         public int Index { get; set; }
-        [XmlIgnore]
         public int Left { get; set; }
         [XmlIgnore]
         public int Top { get; set; }
-        [XmlIgnore]
         public int Right { get; set; }
         public string Name { get; set; }
         [XmlIgnore]

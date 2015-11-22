@@ -71,9 +71,9 @@ namespace DbExporter.Provider.QS2000
         /// <returns></returns>
         public double GetFractionTotal(int startIndex, int endIndex)
         {
-            System.Diagnostics.Debug.Assert(startIndex >= 0 && startIndex < 200);
-            System.Diagnostics.Debug.Assert(endIndex > 0 && endIndex < 200);
-            System.Diagnostics.Debug.Assert(startIndex <= endIndex);
+            //System.Diagnostics.Debug.Assert(startIndex >= 0 && startIndex < 200);
+            //System.Diagnostics.Debug.Assert(endIndex > 0 && endIndex < 200);
+            //System.Diagnostics.Debug.Assert(startIndex <= endIndex);
 
             double total = 0;
             //用积分方法

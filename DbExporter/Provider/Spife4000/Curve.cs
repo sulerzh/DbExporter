@@ -64,9 +64,9 @@ namespace DbExporter.Provider.Spife4000
         /// <returns></returns>
         public int GetFractionTotal(int startIndex, int endIndex)
         {
-            System.Diagnostics.Debug.Assert(startIndex >= 0 && startIndex < 200);
-            System.Diagnostics.Debug.Assert(endIndex > 0 && endIndex < 200);
-            System.Diagnostics.Debug.Assert(startIndex <= endIndex);
+            //System.Diagnostics.Debug.Assert(startIndex >= 0 && startIndex < 200);
+            //System.Diagnostics.Debug.Assert(endIndex > 0 && endIndex < 200);
+            //System.Diagnostics.Debug.Assert(startIndex <= endIndex);
 
             int total = 0;
             //用积分方法
