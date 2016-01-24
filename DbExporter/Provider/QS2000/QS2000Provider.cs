@@ -155,7 +155,7 @@ namespace DbExporter.Provider.QS2000
                                 test.Fraction = fractions;
 
                                 // 不读取了
-                                //test.RstrctBandLabel = ConvertToString(br1.ReadBytes(14));
+                                //test.RstrctBandLabel = ConvertToString(br1.ReadBytes(18));
                                 //test.Reserved = Encoding.ASCII.GetString(br1.ReadBytes(2));
                                 //test.Options = br1.ReadByte();
                             }
