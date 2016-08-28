@@ -13,7 +13,7 @@ namespace DbExporter.View
         public MainForm()
         {
             InitializeComponent();
-            this.datePicker1.MaxDate = DateTime.Now;
+            this.datePicker1.MaxDate = DateTime.Now.AddDays(1);
             ResetDbProvider();
         }
 
