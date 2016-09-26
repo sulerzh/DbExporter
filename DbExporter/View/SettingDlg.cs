@@ -67,6 +67,12 @@ namespace DbExporter.View
             this.DbType = GlobalConfigVars.GetDbType(Properties.Settings.Default.DbType);
             tbDbFolder.Text = Properties.Settings.Default.DbPath;
             tbExportPath.Text = Properties.Settings.Default.XmlPath;
+            numBC0.Value = Properties.Settings.Default.Blp0;
+            numBC1.Value = Properties.Settings.Default.Blp1;
+            numBC2.Value = Properties.Settings.Default.Blp2;
+            numBC3.Value = Properties.Settings.Default.Blp3;
+            numBC4.Value = Properties.Settings.Default.Blp4;
+            numBC5.Value = Properties.Settings.Default.Blp5;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -77,8 +83,24 @@ namespace DbExporter.View
                 return;
             }
 
+            int[] blps = {
+                (int)numBC0.Value, (int)numBC1.Value, (int)numBC2.Value,
+                (int)numBC3.Value, (int)numBC4.Value, (int)numBC5.Value };
             // 保存
-            GlobalConfigVars.SaveSetting(this.DbType.ToString(), tbDbFolder.Text, tbExportPath.Text);
+            GlobalConfigVars.SaveSetting(this.DbType.ToString(), tbDbFolder.Text, tbExportPath.Text, blps);
+        }
+
+        private void SettingForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void btnOK_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.D || e.KeyChar == 100)
+            {
+                this.groupBox2.Visible = !this.groupBox2.Visible;
+            }
         }
     }
 }

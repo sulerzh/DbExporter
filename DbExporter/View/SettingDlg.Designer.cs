@@ -44,16 +44,30 @@
             this.rbPlatinum = new System.Windows.Forms.RadioButton();
             this.rbSpife4000 = new System.Windows.Forms.RadioButton();
             this.rbAggRAM = new System.Windows.Forms.RadioButton();
+            this.numBC0 = new System.Windows.Forms.NumericUpDown();
+            this.numBC3 = new System.Windows.Forms.NumericUpDown();
+            this.numBC2 = new System.Windows.Forms.NumericUpDown();
+            this.numBC1 = new System.Windows.Forms.NumericUpDown();
+            this.numBC4 = new System.Windows.Forms.NumericUpDown();
+            this.numBC5 = new System.Windows.Forms.NumericUpDown();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.gbDbType.SuspendLayout();
             this.dbTypePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC5)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbDbFolder
             // 
             this.tbDbFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbDbFolder.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tbDbFolder.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.tbDbFolder.Location = new System.Drawing.Point(17, 43);
             this.tbDbFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tbDbFolder.Name = "tbDbFolder";
@@ -118,7 +132,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(427, 310);
+            this.btnOK.Location = new System.Drawing.Point(427, 363);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 38);
@@ -126,12 +140,13 @@
             this.btnOK.Text = "确定";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            this.btnOK.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.btnOK_KeyPress);
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(536, 310);
+            this.btnCancel.Location = new System.Drawing.Point(536, 363);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 38);
@@ -231,16 +246,77 @@
             this.rbAggRAM.Text = "AggRAM";
             this.rbAggRAM.UseVisualStyleBackColor = true;
             // 
+            // numBC0
+            // 
+            this.numBC0.Enabled = false;
+            this.numBC0.Location = new System.Drawing.Point(18, 25);
+            this.numBC0.Name = "numBC0";
+            this.numBC0.Size = new System.Drawing.Size(56, 26);
+            this.numBC0.TabIndex = 8;
+            // 
+            // numBC3
+            // 
+            this.numBC3.Location = new System.Drawing.Point(204, 25);
+            this.numBC3.Name = "numBC3";
+            this.numBC3.Size = new System.Drawing.Size(56, 26);
+            this.numBC3.TabIndex = 10;
+            // 
+            // numBC2
+            // 
+            this.numBC2.Location = new System.Drawing.Point(142, 25);
+            this.numBC2.Name = "numBC2";
+            this.numBC2.Size = new System.Drawing.Size(56, 26);
+            this.numBC2.TabIndex = 11;
+            // 
+            // numBC1
+            // 
+            this.numBC1.Location = new System.Drawing.Point(80, 25);
+            this.numBC1.Name = "numBC1";
+            this.numBC1.Size = new System.Drawing.Size(56, 26);
+            this.numBC1.TabIndex = 12;
+            // 
+            // numBC4
+            // 
+            this.numBC4.Location = new System.Drawing.Point(266, 25);
+            this.numBC4.Name = "numBC4";
+            this.numBC4.Size = new System.Drawing.Size(56, 26);
+            this.numBC4.TabIndex = 13;
+            // 
+            // numBC5
+            // 
+            this.numBC5.Enabled = false;
+            this.numBC5.Location = new System.Drawing.Point(328, 25);
+            this.numBC5.Name = "numBC5";
+            this.numBC5.Size = new System.Drawing.Size(56, 26);
+            this.numBC5.TabIndex = 14;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.numBC4);
+            this.groupBox2.Controls.Add(this.numBC5);
+            this.groupBox2.Controls.Add(this.numBC1);
+            this.groupBox2.Controls.Add(this.numBC0);
+            this.groupBox2.Controls.Add(this.numBC2);
+            this.groupBox2.Controls.Add(this.numBC3);
+            this.groupBox2.Location = new System.Drawing.Point(12, 298);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(623, 57);
+            this.groupBox2.TabIndex = 15;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "基线纠正";
+            this.groupBox2.Visible = false;
+            // 
             // SettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(649, 362);
+            this.ClientSize = new System.Drawing.Size(649, 415);
             this.Controls.Add(this.gbDbType);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.groupBox1);
-            this.Font = new System.Drawing.Font("Microsoft YaHei", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Controls.Add(this.groupBox2);
+            this.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -248,11 +324,19 @@
             this.Name = "SettingForm";
             this.Text = "系统设置";
             this.Load += new System.EventHandler(this.SettingForm_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SettingForm_KeyPress);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.gbDbType.ResumeLayout(false);
             this.dbTypePanel.ResumeLayout(false);
             this.dbTypePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBC5)).EndInit();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -274,5 +358,12 @@
         private System.Windows.Forms.RadioButton rbQS2000;
         private System.Windows.Forms.RadioButton rbSpife4000;
         private System.Windows.Forms.TableLayoutPanel dbTypePanel;
+        private System.Windows.Forms.NumericUpDown numBC0;
+        private System.Windows.Forms.NumericUpDown numBC3;
+        private System.Windows.Forms.NumericUpDown numBC2;
+        private System.Windows.Forms.NumericUpDown numBC1;
+        private System.Windows.Forms.NumericUpDown numBC4;
+        private System.Windows.Forms.NumericUpDown numBC5;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

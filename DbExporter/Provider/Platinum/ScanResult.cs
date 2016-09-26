@@ -47,10 +47,10 @@ namespace DbExporter.Provider.Platinum
         [XmlIgnore]
         public DateTime CreateDate { get; set; }
         [XmlElement("CreateDate")]
-        public string CreateDateString 
+        public string CreateDateString
         {
             get { return this.CreateDate.ToString("yyyy/MM/dd HH:mm:ss"); }
-            set { this.CreateDate = DateTime.Parse(value);}
+            set { this.CreateDate = DateTime.Parse(value); }
         }
         [XmlIgnore]
         public DateTime UpdateDate { get; set; }
@@ -116,7 +116,7 @@ namespace DbExporter.Provider.Platinum
         {
             foreach (var fieldDef in Fields)
             {
-                if (fieldDef.FieldType == (byte) FileTypeEnum.LisLabel)
+                if (fieldDef.FieldType == (byte)FileTypeEnum.LisLabel)
                 {
                     return fieldDef.Value;
                 }
@@ -145,7 +145,7 @@ namespace DbExporter.Provider.Platinum
     /// <summary>
     /// Peak表记录类
     /// </summary>
-    [Serializable] 
+    [Serializable]
     public class Peak
     {
         public int Index { get; set; }
@@ -166,11 +166,14 @@ namespace DbExporter.Provider.Platinum
         private int _scanId;
         private int _numData;
         private byte[] _scan;
+
+        public double AG { get; set; }
         public int NumPoint
         {
             get { return _numData; }
             set { _numData = value; }
         }
+        
         public string Points { get; set; }
         [XmlArrayItem("Peak", typeof(Peak))]
         [XmlArray("Peaks")]
@@ -190,41 +193,54 @@ namespace DbExporter.Provider.Platinum
 
         private void Initialize()
         {
-            Curve c = GetCurveFromBlob(_scan, _numData);
+            RawCurve c = GetCurveFromBlob(_scan, _numData);
             this.Points = c.ToString();
             this.Peaks = PlatinumDbAccess.GetPeaksByScanId(_scanId);
             if (this.Peaks != null && this.Peaks.Count > 0)
             {
+                BaseLineCorrectedCurve correctedCurve = new BaseLineCorrectedCurve { Raw = c };
+                correctedCurve.SetFraction(0, 0, GlobalConfigVars.BaseLinePercent[0]);
+                for (int i = 1; i <= this.Peaks.Count; i++)
+                {
+                    correctedCurve.SetFraction(i, this.Peaks[i - 1].Right, GlobalConfigVars.BaseLinePercent[i]);
+                }
+
                 //计算总值[]
-                double total = c.GetFractionTotal(0, c.PointCount - 1);
+                double total = correctedCurve.GetFractionTotal();
+                double albumin = 0;
+                double others = 0;
                 foreach (var peak in this.Peaks)
                 {
                     if (peak.Index == 1)
                     {
                         //albumin[]
-                        double currFra = c.GetFractionTotal(peak.Left, peak.Right);
+                        double currFra = correctedCurve.GetFractionTotal(peak.Left, peak.Right);
                         peak.Percent = currFra / total;
+                        albumin = currFra;
                     }
                     else
                     {
                         //other(]
-                        double currFra = c.GetFractionTotal(peak.Left + 1, peak.Right);
+                        double currFra = correctedCurve.GetFractionTotal(peak.Left + 1, peak.Right);
                         peak.Percent = currFra / total;
+                        others += currFra;
                     }
 
                     if (peak.MSpike)
                     {
                         //m-spike()
-                        double currSpike = c.GetFractionTotal(peak.Left + 1, peak.Right - 1);
+                        double currSpike = correctedCurve.GetFractionTotal(peak.Left + 1, peak.Right - 1);
                         peak.Percent = currSpike / total;
                     }
                 }
+
+                this.AG = albumin / others;
             }
         }
 
-        private static Curve GetCurveFromBlob(byte[] buffer, int numData)
+        private static RawCurve GetCurveFromBlob(byte[] buffer, int numData)
         {
-            Curve c = new Curve();
+            RawCurve c = new RawCurve();
             try
             {
                 using (MemoryStream ms = new MemoryStream(buffer))

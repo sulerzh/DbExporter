@@ -36,9 +36,9 @@
             this.ckReverse = new System.Windows.Forms.CheckBox();
             this.lbSelectedSampleId = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.datePicker1 = new CustomControls.DatePicker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnSetting = new System.Windows.Forms.Button();
-            this.datePicker1 = new CustomControls.DatePicker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -135,6 +135,20 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "设置实验时间";
             // 
+            // datePicker1
+            // 
+            this.datePicker1.InvalidForeColor = System.Drawing.SystemColors.ControlText;
+            this.datePicker1.Location = new System.Drawing.Point(6, 26);
+            this.datePicker1.Name = "datePicker1";
+            this.datePicker1.PickerDayFont = new System.Drawing.Font("宋体", 14F);
+            this.datePicker1.PickerDayHeaderFont = new System.Drawing.Font("Segoe UI", 12F);
+            this.datePicker1.PickerFooterFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.datePicker1.PickerHeaderFont = new System.Drawing.Font("Segoe UI", 12F);
+            this.datePicker1.ShowPickerWeekHeader = false;
+            this.datePicker1.Size = new System.Drawing.Size(515, 35);
+            this.datePicker1.TabIndex = 1;
+            this.datePicker1.ValueChanged += new System.EventHandler<CustomControls.CheckDateEventArgs>(this.datePicker1_ValueChanged);
+            // 
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -160,20 +174,6 @@
             this.btnSetting.TabIndex = 10;
             this.btnSetting.UseVisualStyleBackColor = true;
             this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
-            // 
-            // datePicker1
-            // 
-            this.datePicker1.InvalidForeColor = System.Drawing.SystemColors.ControlText;
-            this.datePicker1.Location = new System.Drawing.Point(6, 26);
-            this.datePicker1.Name = "datePicker1";
-            this.datePicker1.PickerDayFont = new System.Drawing.Font("宋体", 14F);
-            this.datePicker1.PickerDayHeaderFont = new System.Drawing.Font("Segoe UI", 12F);
-            this.datePicker1.PickerFooterFont = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.datePicker1.PickerHeaderFont = new System.Drawing.Font("Segoe UI", 12F);
-            this.datePicker1.ShowPickerWeekHeader = false;
-            this.datePicker1.Size = new System.Drawing.Size(515, 35);
-            this.datePicker1.TabIndex = 1;
-            this.datePicker1.ValueChanged += new System.EventHandler<CustomControls.CheckDateEventArgs>(this.datePicker1_ValueChanged);
             // 
             // MainForm
             // 

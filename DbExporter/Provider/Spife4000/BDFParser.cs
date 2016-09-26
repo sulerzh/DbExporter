@@ -34,9 +34,9 @@ namespace DbExporter.Provider.Spife4000
             return ret;
         }
 
-        private static Curve GetCurve(BinaryReader br)
+        private static RawCurve GetCurve(BinaryReader br)
         {
-            Curve cv = new Curve();
+            RawCurve cv = new RawCurve();
             int count = br.ReadInt32();
             if (count > 0)
             {

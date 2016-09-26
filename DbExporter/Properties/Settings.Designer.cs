@@ -58,5 +58,77 @@ namespace DbExporter.Properties {
                 this["DbType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Blp0 {
+            get {
+                return ((int)(this["Blp0"]));
+            }
+            set {
+                this["Blp0"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Blp1 {
+            get {
+                return ((int)(this["Blp1"]));
+            }
+            set {
+                this["Blp1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Blp2 {
+            get {
+                return ((int)(this["Blp2"]));
+            }
+            set {
+                this["Blp2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Blp3 {
+            get {
+                return ((int)(this["Blp3"]));
+            }
+            set {
+                this["Blp3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Blp4 {
+            get {
+                return ((int)(this["Blp4"]));
+            }
+            set {
+                this["Blp4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Blp5 {
+            get {
+                return ((int)(this["Blp5"]));
+            }
+            set {
+                this["Blp5"] = value;
+            }
+        }
     }
 }

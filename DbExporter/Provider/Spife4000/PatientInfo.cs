@@ -10,9 +10,9 @@ namespace DbExporter.Provider.Spife4000
         BasicInfo m_basicInfo = null;
 
         //曲线1数据
-        Curve m_cv1 = null;
+        RawCurve m_cv1 = null;
         //曲线2数据
-        Curve m_cv2 = null;
+        RawCurve m_cv2 = null;
 
         //分段点数据
         Fraction m_fra = null;
@@ -26,9 +26,9 @@ namespace DbExporter.Provider.Spife4000
 
 
         //各分段区比重数据
-        List<float> m_fractions = null;
+        List<double> m_fractions = null;
 
-        List<KeyValuePair<string, float>> m_spikes = null;
+        List<KeyValuePair<string, double>> m_spikes = null;
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace DbExporter.Provider.Spife4000
             }
         }
 
-        public Curve Curve1
+        public RawCurve Curve1
         {
             get
             {
@@ -58,7 +58,7 @@ namespace DbExporter.Provider.Spife4000
             }
         }
 
-        public Curve Curve2
+        public RawCurve Curve2
         {
             get
             {
@@ -84,13 +84,13 @@ namespace DbExporter.Provider.Spife4000
 
         public Spike Spike
         {
-            get 
+            get
             {
-                return m_spike; 
+                return m_spike;
             }
             set
             {
-                m_spike = value; 
+                m_spike = value;
             }
         }
 
@@ -145,27 +145,35 @@ namespace DbExporter.Provider.Spife4000
         /// </summary>
         private void CalculateFraction()
         {
+            BaseLineCorrectedCurve correctedCurve = new BaseLineCorrectedCurve { Raw = m_cv1 };
+            correctedCurve.SetFraction(0, 0, GlobalConfigVars.BaseLinePercent[0]);
             if (m_fra != null && m_fra.PointCount > 0)
             {
-                m_fractions = new List<float>();
+                int i = 1;
+                foreach (int currPos in m_fra)
+                {
+                    correctedCurve.SetFraction(i, currPos, GlobalConfigVars.BaseLinePercent[i]);
+                    i++;
+                }
+
+                m_fractions = new List<double>();
                 //初始值为曲线的第一个点
                 int prevPos = 0;
                 //计算总值[]
-                float total = m_cv1.GetFractionTotal(prevPos, m_fra.GetLastFraction());
-                bool first = true;
+                double total = correctedCurve.GetFractionTotal();
+                i = 0;
                 foreach (int currPos in m_fra)
                 {
-                    if (first)
+                    if (i == 0)
                     {
                         //albumin[]
-                        float currFra = m_cv1.GetFractionTotal(prevPos, currPos);
+                        double currFra = correctedCurve.GetFractionTotal(prevPos, currPos);
                         m_fractions.Add(currFra / total);
-                        first = false;
                     }
                     else
                     {
                         //other(]
-                        float currFra = m_cv1.GetFractionTotal(prevPos + 1, currPos);
+                        double currFra = correctedCurve.GetFractionTotal(prevPos + 1, currPos);
                         m_fractions.Add(currFra / total);
                     }
                     prevPos = currPos;
@@ -173,13 +181,13 @@ namespace DbExporter.Provider.Spife4000
 
                 if (m_spike != null)
                 {
-                    m_spikes = new List<KeyValuePair<string, float>>();
+                    m_spikes = new List<KeyValuePair<string, double>>();
                     foreach (Block blk in m_spike)
                     {
                         string currSpikeName = GetProteinName(blk.FractionIndex);
                         //m-spike()
-                        float currSpike = m_cv1.GetFractionTotal(blk.StartIndex+1, blk.EndIndex-1);
-                        m_spikes.Add(new KeyValuePair<string, float>(currSpikeName, currSpike / total));
+                        double currSpike = correctedCurve.GetFractionTotal(blk.StartIndex + 1, blk.EndIndex - 1);
+                        m_spikes.Add(new KeyValuePair<string, double>(currSpikeName, currSpike / total));
                     }
                 }
             }
@@ -190,13 +198,13 @@ namespace DbExporter.Provider.Spife4000
         /// </summary>
         /// <param name="fraIndex"></param>
         /// <returns></returns>
-        public float GetFraction(int fraIndex)
+        public double GetFraction(int fraIndex)
         {
             if (m_fractions == null)
             {
                 CalculateFraction();
             }
-            
+
             if (m_fractions.Count > fraIndex)
             {
                 return m_fractions[fraIndex];
@@ -209,7 +217,7 @@ namespace DbExporter.Provider.Spife4000
         /// 计算白蛋白的比重
         /// </summary>
         /// <returns></returns>
-        public float GetAlbumin()
+        public double GetAlbumin()
         {
             return GetFraction(0);
         }
@@ -218,29 +226,29 @@ namespace DbExporter.Provider.Spife4000
         /// 计算alpha1的比重
         /// </summary>
         /// <returns></returns>
-        public float GetAlpha1()
+        public double GetAlpha1()
         {
             return GetFraction(1);
         }
 
-        public float GetAlpha2()
+        public double GetAlpha2()
         {
             return GetFraction(2);
         }
 
-        public float GetBeta()
+        public double GetBeta()
         {
             return GetFraction(3);
         }
 
-        public float GetGamma()
+        public double GetGamma()
         {
             return GetFraction(4);
         }
 
-        public float GetRest()
+        public double GetRest()
         {
-            float ret = 0f;
+            double ret = 0f;
 
             if (m_fractions == null)
             {
@@ -262,14 +270,14 @@ namespace DbExporter.Provider.Spife4000
         /// 计算所有球蛋白所占的比重
         /// </summary>
         /// <returns></returns>
-        private float GetAllFractionExceptAlbmin()
+        private double GetAllFractionExceptAlbmin()
         {
-            float ret = 0f;
+            double ret = 0f;
             if (m_fractions == null)
             {
                 CalculateFraction();
             }
-            
+
             for (int i = 1; i < m_fractions.Count && i < 5; i++)
             {
                 ret += m_fractions[i];
@@ -282,7 +290,7 @@ namespace DbExporter.Provider.Spife4000
         /// 计算白蛋白与球蛋白的比值
         /// </summary>
         /// <returns></returns>
-        public float GetRatioAG()
+        public double GetRatioAG()
         {
             if (m_fractions == null)
             {
@@ -304,7 +312,7 @@ namespace DbExporter.Provider.Spife4000
         /// </summary>
         /// <param name="fraIndex"></param>
         /// <returns></returns>
-        public KeyValuePair<string,float> GetSpike(int spkIndex)
+        public KeyValuePair<string, double> GetSpike(int spkIndex)
         {
             if (m_spikes == null)
             {
@@ -316,10 +324,10 @@ namespace DbExporter.Provider.Spife4000
                 return m_spikes[spkIndex];
             }
 
-            return new KeyValuePair<string,float>("", 0f);
+            return new KeyValuePair<string, double>("", 0f);
         }
 
-        public string Base64Image 
+        public string Base64Image
         {
             get { return ImageToBase64(this.m_BMPContent); }
         }

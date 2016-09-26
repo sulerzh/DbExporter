@@ -83,7 +83,7 @@ namespace DbExporter
             {
                 return false;
             }
-            
+
             if (dbType != SupportedDbType.Platinum)
             {
                 return Directory.Exists(dbPath);
@@ -118,11 +118,17 @@ namespace DbExporter
             return ValidateDbPath(dbType, dbPath);
         }
 
-        public static void SaveSetting(string strDbType, string dbPath, string expPath)
+        public static void SaveSetting(string strDbType, string dbPath, string expPath, int[] blps)
         {
             Properties.Settings.Default.DbType = strDbType;
             Properties.Settings.Default.DbPath = dbPath;
             Properties.Settings.Default.XmlPath = expPath;
+            Properties.Settings.Default.Blp0 = blps[0];
+            Properties.Settings.Default.Blp1 = blps[1];
+            Properties.Settings.Default.Blp2 = blps[2];
+            Properties.Settings.Default.Blp3 = blps[3];
+            Properties.Settings.Default.Blp4 = blps[4];
+            Properties.Settings.Default.Blp5 = blps[5];
             Properties.Settings.Default.Save();
         }
 
@@ -147,6 +153,23 @@ namespace DbExporter
         public static string XmlPath
         {
             get { return Properties.Settings.Default.XmlPath; }
+        }
+
+        public static int[] BaseLinePercent
+        {
+
+            get
+            {
+                return new int[6]
+                {
+                    Properties.Settings.Default.Blp0,
+                    Properties.Settings.Default.Blp1,
+                    Properties.Settings.Default.Blp2,
+                    Properties.Settings.Default.Blp3,
+                    Properties.Settings.Default.Blp4,
+                    Properties.Settings.Default.Blp5
+                };
+            }
         }
 
         public static IDbProvider GetDbProvider()

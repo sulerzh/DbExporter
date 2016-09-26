@@ -26,55 +26,77 @@ namespace DbExporter.Provider.QS2000
     [Serializable]
     public class Qs2000Result
     {
+        public double AG { get; set; }
         public int NumPoint { get; set; }
         public string Points { get; set; }
+        
         [XmlArrayItem("Peak", typeof(Peak))]
         [XmlArray("Peaks")]
         public List<Peak> Peaks { get; set; }
+
+        [XmlIgnore]
+        public List<double> cache = new List<double>();
+
 
         public Qs2000Result()
         { }
 
         public Qs2000Result(List<short> data, List<short> fraction, List<Fraction> nots)
         {
-            Curve c = new Curve(data.Select(i=>(int)i).ToList());
+            RawCurve c = new RawCurve(data.Select(i => (int)i).ToList());
+            BaseLineCorrectedCurve correctedCurve = new BaseLineCorrectedCurve { Raw = c};
             this.NumPoint = data.Count;
             this.Points = c.ToString();
             this.Peaks = new List<Peak>();
-            for (int i=0;i<fraction.Count-1;i++)
+            int fracCount = fraction[0];
+            correctedCurve.SetFraction(0, 0, GlobalConfigVars.BaseLinePercent[0]);
+            for (int i = 1; i <= fracCount; i++)
             {
-                if (fraction[i] < fraction[i + 1])
+                Peak p = new Peak
                 {
-                    Peak p = new Peak { Index=i+1, Left= fraction[i], Right= fraction[i + 1], Name= nots[i+1].Label, MSpike=false };
-                    this.Peaks.Add(p);
-                }
+                    Index = i,
+                    Left = i == 1 ? 0 : fraction[i - 1],
+                    Right = fraction[i],
+                    Name = nots[i].Label,
+                    MSpike = false
+                };
+                correctedCurve.SetFraction(i, p.Right, GlobalConfigVars.BaseLinePercent[i]);
+                this.Peaks.Add(p);
             }
             if (this.Peaks.Count > 0)
             {
                 //计算总值[]
-                double total = c.GetFractionTotal(0, c.PointCount - 1);
+                double total = correctedCurve.GetFractionTotal();
+                double albumin = 0;
+                double others = 0;
                 foreach (var peak in this.Peaks)
                 {
+                    int start = peak.Left;
+                    int end = peak.Right;
                     if (peak.Index == 1)
                     {
                         //albumin[]
-                        double currFra = c.GetFractionTotal(peak.Left, peak.Right);
+                        double currFra = correctedCurve.GetFractionTotal(start, end);
                         peak.Percent = currFra / total;
+                        albumin = currFra;
                     }
                     else
                     {
                         //other(]
-                        double currFra = c.GetFractionTotal(peak.Left + 1, peak.Right);
+                        double currFra = correctedCurve.GetFractionTotal(start + 1, end);
                         peak.Percent = currFra / total;
+                        others += currFra;
                     }
 
                     if (peak.MSpike)
                     {
                         //m-spike()
-                        double currSpike = c.GetFractionTotal(peak.Left + 1, peak.Right - 1);
+                        double currSpike = correctedCurve.GetFractionTotal(start + 1, end - 1);
                         peak.Percent = currSpike / total;
                     }
                 }
+
+                this.AG = albumin / others;
             }
         }
     }

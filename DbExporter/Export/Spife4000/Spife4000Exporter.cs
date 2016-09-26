@@ -24,7 +24,7 @@ namespace DbExporter.Export.Spife4000
                     List<MSpike> mSpikes = new List<MSpike>();
                     for (int i = 0; i < sampleInfo.Spike.BlockCount; i++)
                     {
-                        KeyValuePair<string, float> kvp = sampleInfo.GetSpike(i);
+                        KeyValuePair<string, double> kvp = sampleInfo.GetSpike(i);
                         mSpikes.Add(new MSpike
                         {
                             Label = kvp.Key,
