@@ -60,7 +60,8 @@ namespace DbExporter.Provider.QS2000
                     Name = nots[i].Label,
                     MSpike = false
                 };
-                correctedCurve.SetFraction(i, p.Right, GlobalConfigVars.BaseLinePercent[i]);
+                int percent = i > 5 ? 0 : GlobalConfigVars.BaseLinePercent[i];
+                correctedCurve.SetFraction(i, p.Right, percent);
                 this.Peaks.Add(p);
             }
             if (this.Peaks.Count > 0)

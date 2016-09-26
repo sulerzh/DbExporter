@@ -23,16 +23,20 @@ namespace DbExporter.Provider
     public class BaseLineCorrectedCurve
     {
         public RawCurve Raw { get; set; }
-        FractionPosition[] fractions = new FractionPosition[6];
+        FractionPosition[] fractions = new FractionPosition[10];
 
         public BaseLineCorrectedCurve() { }
 
         private int GetFractionIndex(int x)
         {
-            for (int i = 1; i <= fractions.Count(); i++)
+            for (int i = 1; i < fractions.Count(); i++)
             {
                 FractionPosition start = fractions[i - 1];
                 FractionPosition end = fractions[i];
+                if (start == null || end == null)
+                {
+                    return -1;
+                }
                 if (i == 1)
                 {
                     if (x >= start.x && x <= end.x)
@@ -56,8 +60,16 @@ namespace DbExporter.Provider
         public int GetVal(int x)
         {
             int fraIndex = GetFractionIndex(x);
+            if (fraIndex == -1)
+            {
+                return 0;
+            }
             FractionPosition start = fractions[fraIndex - 1];
             FractionPosition end = fractions[fraIndex];
+            if(start.x == end.x)
+            {
+                return 0;
+            }
             int rawVal = Raw.GetPoint(x);
             int discount = (end.bly - start.bly) * (x - start.x) / (end.x - start.x) + start.bly;
             return (rawVal > discount) ? (rawVal - discount) : 0;

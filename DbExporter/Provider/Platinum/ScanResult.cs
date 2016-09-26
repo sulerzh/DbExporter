@@ -202,7 +202,8 @@ namespace DbExporter.Provider.Platinum
                 correctedCurve.SetFraction(0, 0, GlobalConfigVars.BaseLinePercent[0]);
                 for (int i = 1; i <= this.Peaks.Count; i++)
                 {
-                    correctedCurve.SetFraction(i, this.Peaks[i - 1].Right, GlobalConfigVars.BaseLinePercent[i]);
+                    int percent = i > 5 ? 0 : GlobalConfigVars.BaseLinePercent[i];
+                    correctedCurve.SetFraction(i, this.Peaks[i - 1].Right, percent);
                 }
 
                 //计算总值[]
