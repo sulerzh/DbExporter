@@ -97,7 +97,7 @@ namespace DbExporter.View
 
         private void btnOK_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.D || e.KeyChar == 100)
+            if (e.KeyChar == (char)Keys.D || e.KeyChar == 100 && DbType != SupportedDbType.Platinum)
             {
                 this.groupBox2.Visible = !this.groupBox2.Visible;
             }

@@ -257,6 +257,11 @@
             // numBC3
             // 
             this.numBC3.Location = new System.Drawing.Point(204, 25);
+            this.numBC3.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             this.numBC3.Name = "numBC3";
             this.numBC3.Size = new System.Drawing.Size(56, 26);
             this.numBC3.TabIndex = 10;
@@ -264,6 +269,11 @@
             // numBC2
             // 
             this.numBC2.Location = new System.Drawing.Point(142, 25);
+            this.numBC2.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             this.numBC2.Name = "numBC2";
             this.numBC2.Size = new System.Drawing.Size(56, 26);
             this.numBC2.TabIndex = 11;
@@ -271,6 +281,11 @@
             // numBC1
             // 
             this.numBC1.Location = new System.Drawing.Point(80, 25);
+            this.numBC1.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             this.numBC1.Name = "numBC1";
             this.numBC1.Size = new System.Drawing.Size(56, 26);
             this.numBC1.TabIndex = 12;
@@ -278,6 +293,11 @@
             // numBC4
             // 
             this.numBC4.Location = new System.Drawing.Point(266, 25);
+            this.numBC4.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             this.numBC4.Name = "numBC4";
             this.numBC4.Size = new System.Drawing.Size(56, 26);
             this.numBC4.TabIndex = 13;

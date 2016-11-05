@@ -225,7 +225,9 @@ namespace DbExporter.Provider.Platinum
                             result.Edited = 1==reader.GetByte(reader.GetOrdinal("Edited"));
                             result.Viewed = 1 == reader.GetByte(reader.GetOrdinal("Viewed"));
                             result.MeasTime = reader.GetDateTime(reader.GetOrdinal("MeasTime"));
-                            result.NumData = reader.GetInt32(reader.GetOrdinal("NumData"));                            
+                            result.NumData = reader.GetInt32(reader.GetOrdinal("NumData"));    
+                            result.BaseLeft = reader.GetFloat(reader.GetOrdinal("BaseLeft"));
+                            result.BaseRight = reader.GetFloat(reader.GetOrdinal("BaseRight"));
                             if (!result.IFE)
                             {
                                 if (reader[reader.GetOrdinal("Scan")] != DBNull.Value)

@@ -65,6 +65,11 @@ namespace DbExporter.Provider.Platinum
 
         public Demographic Patient { get; set; }
 
+        [XmlIgnore]
+        public float BaseLeft { get; set; }
+        [XmlIgnore]
+        public float BaseRight { get; set; }
+
         protected override string GetLabel()
         {
             return string.Format("{0}{1}", Patient.Def.GetLisLabel(), IFE ? "（IFE)" : "");
@@ -173,7 +178,10 @@ namespace DbExporter.Provider.Platinum
             get { return _numData; }
             set { _numData = value; }
         }
-        
+
+        public float BaseLeft { get; set; }
+        public float BaseRight { get; set; }
+
         public string Points { get; set; }
         [XmlArrayItem("Peak", typeof(Peak))]
         [XmlArray("Peaks")]
@@ -183,27 +191,33 @@ namespace DbExporter.Provider.Platinum
         {
         }
 
-        public CalResult(int scanId, int numData, byte[] scan)
+        public CalResult(int scanId, int numData, byte[] scan, float baseLeft, float baseRight)
         {
             this._scanId = scanId;
             this._numData = numData;
             this._scan = scan;
+            this.BaseLeft = baseLeft;
+            this.BaseRight = baseRight;
             Initialize();
         }
 
         private void Initialize()
         {
-            RawCurve c = GetCurveFromBlob(_scan, _numData);
+            RawCurveF c = GetCurveFromBlob(_scan, _numData);
             this.Points = c.ToString();
             this.Peaks = PlatinumDbAccess.GetPeaksByScanId(_scanId);
             if (this.Peaks != null && this.Peaks.Count > 0)
             {
-                BaseLineCorrectedCurve correctedCurve = new BaseLineCorrectedCurve { Raw = c };
-                correctedCurve.SetFraction(0, 0, GlobalConfigVars.BaseLinePercent[0]);
+                BaseLineCorrectedCurveF correctedCurve = new BaseLineCorrectedCurveF
+                {
+                    Raw = c,
+                    BaseLeft = this.BaseLeft,
+                    BaseRight = this.BaseRight
+                };
+                correctedCurve.SetFraction(0, this.Peaks[0].Left);
                 for (int i = 1; i <= this.Peaks.Count; i++)
                 {
-                    int percent = i > 5 ? 0 : GlobalConfigVars.BaseLinePercent[i];
-                    correctedCurve.SetFraction(i, this.Peaks[i - 1].Right, percent);
+                    correctedCurve.SetFraction(i, this.Peaks[i - 1].Right);
                 }
 
                 //计算总值[]
@@ -239,9 +253,9 @@ namespace DbExporter.Provider.Platinum
             }
         }
 
-        private static RawCurve GetCurveFromBlob(byte[] buffer, int numData)
+        private static RawCurveF GetCurveFromBlob(byte[] buffer, int numData)
         {
-            RawCurve c = new RawCurve();
+            RawCurveF c = new RawCurveF();
             try
             {
                 using (MemoryStream ms = new MemoryStream(buffer))
@@ -250,7 +264,7 @@ namespace DbExporter.Provider.Platinum
                     {
                         for (int i = 0; i < numData; i++)
                         {
-                            int pointValue = br.ReadInt32();
+                            float pointValue = br.ReadSingle();
                             c.AddPoint(pointValue);
                         }
                     }
@@ -292,7 +306,7 @@ namespace DbExporter.Provider.Platinum
 
             if (!this.Scan.IFE)
             {
-                this.Result = new CalResult(this.Scan.ScanIdNr, this.Scan.NumData, this.Scan.Scan);
+                this.Result = new CalResult(this.Scan.ScanIdNr, this.Scan.NumData, this.Scan.Scan, this.Scan.BaseLeft, this.Scan.BaseRight);
             }
         }
 
