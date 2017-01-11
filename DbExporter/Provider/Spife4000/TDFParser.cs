@@ -8,7 +8,7 @@ namespace DbExporter.Provider.Spife4000
     {
         private static Regex PatientIdRegex = new Regex(@"Label=Patient I[D|d](entifier)?\s*Value=(\w+)\s*", RegexOptions.Compiled);
         private static Regex PatientIdentifierRegex = new Regex(@"Sample\/[\s\S]*Patient_Identifier=(\d+)[\s\S]*\/Sample", RegexOptions.Compiled);
-        private static Regex ScannedDateTimeRegex = new Regex(@"Date_Time_Scanned=((\d{2}|\d{4})\/\d{2}\/(\d{2}|\d{4})\s+\d{2}:\d{2}:\d{2}:\d{2})", RegexOptions.Compiled);
+        private static Regex ScannedDateTimeRegex = new Regex(@"Date_Time_Scanned=((\d{2}|\d{4})[\/|-]\d{2}[\/|-](\d{2}|\d{4})\s+\d{2}:\d{2}:\d{2}):\d{2}", RegexOptions.Compiled);
 
         private static string TdfParseRegex =
             @"Gel_Identifier=(\d+)" +
@@ -16,7 +16,7 @@ namespace DbExporter.Provider.Spife4000
             @"Sample_Number=(\d+)" +
             @"[\s\S]*" +
             // 扫描时间 
-            @"Date_Time_Scanned=((\d{2}|\d{4})\/\d{2}\/(\d{2}|\d{4})\s+\d{2}:\d{2}:\d{2}):\d{2}"+
+            @"Date_Time_Scanned=([\d -\/:]+)" +
             @"[\s\S]*"+
             // 病人ID
             @"Sample\/[\s\S]*Patient_Identifier=(\d+)?[\s\S]*\/Sample"+
@@ -38,12 +38,18 @@ namespace DbExporter.Provider.Spife4000
                     var m = TdfRegex.Match(content);
                     if (m.Success)
                     {
+                        string time = m.Groups[3].Value.Trim();
+                        int index = time.LastIndexOf(':');
+                        if (index > 0)
+                        {
+                            time = time.Substring(0, index);
+                        }
                         tdfInfo = new TdfInfo
                         {
                             GelId = m.Groups[1].Value,
                             SampleNum = m.Groups[2].Value,
-                            ScannedTime = DateTime.Parse(m.Groups[3].Value),
-                            SampleId = m.Groups[6].Value != string.Empty ? m.Groups[6].Value : m.Groups[7].Value,
+                            ScannedTime = DateTime.Parse(time),
+                            SampleId = m.Groups[4].Value != string.Empty ? m.Groups[4].Value : m.Groups[5].Value,
                             BdfFilePath = Path.ChangeExtension(file, ".BDF")
                         };
                         if (tdfInfo.SampleId == "")
@@ -58,7 +64,7 @@ namespace DbExporter.Provider.Spife4000
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
 
